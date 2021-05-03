@@ -24,9 +24,18 @@ wildschwein_BE<- mutate(wildschwein_BE, timelag=as.integer(difftime(lead(Datetim
 #Now inspect your data in more detail. Try to answer the following questions:
 
 #How many individuals were tracked?
+table(wildschwein_BE$TierID)
+#three individuals were tracked 
+
+ggplot(data=wildschwein_BE)+
+  geom_line(mapping=aes(x=wildschwein_BE$DatetimeUTC, y=wildschwein_BE$TierID))
+
+ggplot(data=wildschwein_BE)+
+  geom_histogram(mapping=aes(x=wildschwein_BE$timelag,y=count(wildschwein_BE$TierName)))
+?count
 
 
-
+View(wildschwein_BE)
 #For how long were the individual tracked? Are there gaps?
 #Were all individuals tracked concurrently or sequentially?
 #What is the temporal sampling interval between the locations?
