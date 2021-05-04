@@ -183,3 +183,44 @@ ggplot(data = caro,mapping=aes(x=DatetimeUTC, y=speed))+
   xlab("Time")+
   ylab("Speed (m/s)")
 
+####Task 4 - Deriving movement parameters II: Rolling window functions##########
+
+library(zoo)
+?zoo
+?rollmean
+
+library(zoo)
+
+library(zoo)
+
+example <- rnorm(10)
+example
+rollmean(example,k = 3,fill = NA,align = "left")
+##  [1]  0.93634335  0.31709038  0.02370048  0.67869801  0.73369105  0.50401344
+##  [7] -0.56144365 -0.56902598          NA          NA
+rollmean(example,k = 4,fill = NA,align = "left")
+##  [1]  0.6775521  0.2045005  0.5848215  0.5255629  0.3446928  0.1459635
+##  [7] -0.4102301         NA         NA         NA
+
+#Rolling window
+caro_win <- caro
+caro_win$k2 <- rollmean(caro_win$speed, k=2, fill = NA, align = "left")
+caro_win$k4 <- rollmean(caro_win$speed, k=4, fill = NA, align = "left")
+caro_win$k6 <- rollmean(caro_win$speed, k=6, fill = NA, align = "left")
+caro_win$k8 <- rollmean(caro_win$speed, k=8, fill = NA, align = "left")
+caro_win$k10 <- rollmean(caro_win$speed, k=10, fill = NA, align = "left")
+View(caro_win)
+
+#Visualization
+ggplot(data = caro_win,mapping=aes(x=DatetimeUTC, y=speed))+
+  geom_line(alpha=0.5)+
+  geom_line(data=caro_win, mapping=aes(y=k2, color="k2"))+
+  geom_line(data=caro_win, mapping=aes(y=k4, color="k4"))+
+  geom_line(data=caro_win, mapping=aes(y=k6, color="k6"))+
+  geom_line(data=caro_win, mapping=aes(y=k8, color="k8"))+
+  geom_line(data=caro_win, mapping=aes(y=k10, color="k10"))+
+  theme_light()+
+  labs(color="Window size", title = "Comparing derived speed at different window sizes")+
+  theme(title=element_text(size=8))+
+  xlab("Time")+
+  ylab("Speed (m/s)")
