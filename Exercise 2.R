@@ -56,8 +56,8 @@ wildschwein_BE%>%
   group_by(TierID)%>%
   summarise(median(timelag,na.rm=TRUE))
 
-ggplot(data=wildschwein_BE)+
-  geom_bar(mapping=aes(x=timelag))+
+ggplot(data=wildschwein_BE,mapping=aes(x=timelag))+
+  geom_histogram(binwidth =10)+
   scale_y_log10()+
   xlim(0,15000)+
   theme_classic()
